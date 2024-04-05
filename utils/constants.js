@@ -1,0 +1,14 @@
+module.exports.ERROR_CODES = {
+  NOT_FOUND: 404,
+  BAD_REQUEST: 400,
+  UNAUTHORIZED: 401,
+  FORBIDDEN_ACCESS: 403,
+  CONFLICT: 409,
+  CONTENT_T00_LARGE: 413,
+  INTERNAL_SERVER_ERROR: 500,
+};
+
+module.exports.ROLES = {
+  ADMIN: "Admin",
+  USER: "User",
+};

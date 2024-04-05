@@ -1,6 +1,6 @@
-const Joi = require("joi");
+const _ = require("joi");
 
-const JoiInstance = Joi.defaults((schema) => {
+const Joi = _.defaults((schema) => {
   return schema.options({
     abortEarly: false,
     errors: {
@@ -11,5 +11,5 @@ const JoiInstance = Joi.defaults((schema) => {
   });
 });
 
-JoiInstance.objectId = require("joi-objectid")(Joi);
-module.exports = JoiInstance;
+Joi.objectId = require("joi-objectid")(_);
+module.exports = Joi;
