@@ -1,18 +1,20 @@
-const express = require("express");
-require("express-async-errors");
+const express = require('express');
+require('express-async-errors');
 
-// Routes
-const users = require("../routes/users");
+// routes
+const users = require('../routes/users');
+const faces = require('../routes/faces');
+const baggages = require('../routes/baggages');
 
-// Middlewares
-const invalidRouteMiddleware = require("../middlewares/invalid-route");
-const errorMiddleware = require("../middlewares/error");
+// middlewares
+const invalidRouteMiddleware = require('../middlewares/invalid-route');
+const errorMiddleware = require('../middlewares/error');
 
 module.exports = function (app) {
-  app.use(express.json());
-  app.use("/api/user", users);
-  // app.use("/api/face", store);
-  // app.use("/api/baggage", store);
-  app.use(invalidRouteMiddleware);
-  app.use(errorMiddleware);
+	app.use(express.json());
+	app.use('/api/user', users);
+	app.use('/api/face', faces);
+	app.use('/api/baggage', baggages);
+	app.use(invalidRouteMiddleware);
+	app.use(errorMiddleware);
 };

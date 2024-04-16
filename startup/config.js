@@ -1,11 +1,22 @@
-require("dotenv").config();
-const { configSchema } = require("../utils/validations/config-schema");
+require('dotenv').config();
+const { configSchema } = require('../utils/validations/config-schema');
 
 module.exports = () => {
-  const { PORT, JWT_KEY } = process.env;
-  const { error } = configSchema.validate({ PORT, JWT_KEY });
+	const config = {
+		PORT: process.env.PORT,
+		JWT_KEY: process.env.JWT_KEY,
+		CLIENT_URL: process.env.CLIENT_URL,
+		MINIO_ENDPOINT: process.env.MINIO_ENDPOINT,
+		MINIO_PORT: process.env.MINIO_PORT,
+		MINIO_ACCESS_KEY: process.env.MINIO_ACCESS_KEY,
+		MINIO_SECRET_KEY: process.env.MINIO_SECRET_KEY,
+		MINIO_USER_FACES_BUCKET: process.env.MINIO_USER_FACES_BUCKET,
+		MINIO_BAGGAGES_BUCKET: process.env.MINIO_BAGGAGES_BUCKET,
+	};
 
-  if (error) {
-    throw new Error(`Config Error: ${error.details.map((i) => i.message).join(", ")}`);
-  }
+	const { error } = configSchema.validate(config);
+
+	if (error) {
+		throw new Error(`Config Error: ${error.details.map((i) => i.message).join(', ')}`);
+	}
 };
