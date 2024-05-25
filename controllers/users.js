@@ -56,10 +56,11 @@ const signup = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-	const { username, firstName, lastName, contactNumber, position } = req.body;
+	const userId = req.user.id;
+	const { firstName, lastName, contactNumber, position } = req.body;
 
-	const user = await Users.findOneAndUpdate(
-		{ username },
+	const user = await Users.findByIdAndUpdate(
+		userId,
 		{ firstName, lastName, contactNumber, position },
 		{ new: true }
 	).lean();
