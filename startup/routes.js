@@ -15,6 +15,5 @@ module.exports = function (app) {
 	app.use('/api/user', users);
 	app.use('/api/face', faces);
 	app.use('/api/baggage', baggages);
-	app.use(invalidRouteMiddleware);
 	app.use(errorMiddleware);
 };

@@ -13,6 +13,7 @@ const updateSchema = Joi.object({
 });
 
 const signupSchema = updateSchema.keys({
+	username: Joi.string().min(3).max(32).required(),
 	password: Joi.string().min(8).max(20).required(),
 });
 
