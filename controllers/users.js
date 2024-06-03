@@ -12,9 +12,29 @@ const {
 	BadRequestError,
 } = require('../utils/errors');
 
-const userDetails = async (req, res) => {
-	const user = await Users.findById(req.user.id);
+const unApprovedUsers = async (req, res) => {
+	const user = await Users.find({ isApproved: false });
 	res.status(200).send(user);
+};
+
+const userDetails = async (req, res) => {
+	const { username, password: userPassword } = req.body;
+
+	const user = await Users.findOne({ username }).lean().select('+password');
+	if (!user) throw NotFoundError('User not found');
+
+	const isMatch = await comparePasswords(userPassword, user.password);
+	if (!isMatch) throw UnauthorizedError('Invalid Credentials');
+
+	if (user.role === ROLES.USER && !user.isApproved)
+		throw ForbiddenAccessError('User is not approved by Admin');
+
+	const token = jwt.sign({ id: user._id, username, role: user.role }, process.env.JWT_KEY, {
+		expiresIn: '7d',
+	});
+
+	const { password, ...userDetails } = user;
+	return res.status(200).send({ user: { ...userDetails }, token });
 };
 
 const login = async (req, res) => {
@@ -103,4 +123,5 @@ module.exports = {
 	updateUser,
 	grantAdmin,
 	approveUser,
+	unApprovedUsers,
 };

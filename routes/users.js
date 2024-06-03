@@ -3,6 +3,7 @@ const router = require('express').Router();
 // controller
 const {
 	userDetails,
+	unApprovedUsers,
 	signup,
 	login,
 	updateUser,
@@ -20,6 +21,7 @@ const { loginSchema, signupSchema, updateSchema } = require('../utils/validation
 
 // routes
 router.get('/details', validateToken, userDetails);
+router.get('/unapproved', [validateToken, validateAdmin], unApprovedUsers);
 router.post('/login', validateRequest(loginSchema), login);
 router.post('/signup', validateRequest(signupSchema), signup);
 router.put('/', [validateToken, validateRequest(updateSchema)], updateUser);
